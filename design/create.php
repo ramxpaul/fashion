@@ -1,82 +1,83 @@
-<?php 
+<?php
 // DB Connecting
 require '../dbconnection.php';
 
 ### Fetching Roles
 $sqlGetRoles = "select role_id , role_name from roles";
-$result = mysqli_query($conn,$sqlGetRoles);
+$result = mysqli_query($conn, $sqlGetRoles);
 #########
 
 //Clean Function 
 
-function clean($input){
+function clean($input)
+{
     return stripslashes(strip_tags(trim($input)));
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-### create user code structure
-$fName = clean($_POST['fName']);
-$lName = clean($_POST['lName']);
-$email = clean($_POST['email']);
-$password = clean($_POST['password']);
-$role_id = (int)clean($_POST['role_id']);
+    ### create user code structure
+    $fName = clean($_POST['fName']);
+    $lName = clean($_POST['lName']);
+    $email = clean($_POST['email']);
+    $password = clean($_POST['password']);
+    $role_id = (int)clean($_POST['role_id']);
 
-// Validating
-$errors = [];
+    // Validating
+    $errors = [];
 
-// First Name Validation
-if(empty($fName)){
-    $errors['fName'] ='Please Insert Your First Name';
-}elseif(strlen($fName) > 8){
-    $errors['fName'] = 'First Name Must Be less Than 8 Letters';
-}
-
-// Last Name Validation
-if(empty($lName)){
-    $errors['lName'] ='Please Insert Your Last Name';
-}elseif(strlen($lName) > 8){
-    $errors['lName'] = 'Last Name Must Be less Than 8 Letters';
-}
-
-// Email Validation
-if(empty($email)){
-    $errors['email'] = 'Please Insert Your Email Address';
-}elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors['email'] = "Invalid Email";
-}
-
-// Password Validation
-if (empty($password)) {
-    $errors['password'] = "Password Required";
-} elseif (strlen($password) < 6 && strlen($password) > 14) {
-    $errors['Password'] = "Length Must be between 6-14 Letters";
-}
-
-// Role_ID Validation
-if (empty($role_id)) {
-    $errors['role_id'] = "Role is Required";
-}elseif(!is_int($role_id)){
-    $errors['role_id'] = "Invalid Role ID";
-}
-
-// Catching errors
-if (count($errors) > 0) {
-    // print errors 
-    foreach ($errors as $key => $value) {
-        echo '* ' . $key . ' : ' . $value . '<br>';
+    // First Name Validation
+    if (empty($fName)) {
+        $errors['fName'] = 'Please Insert Your First Name';
+    } elseif (strlen($fName) > 8) {
+        $errors['fName'] = 'First Name Must Be less Than 8 Letters';
     }
-} else {
-    $password = md5($password);
 
-    $sqlInsert = "insert into user(f_name,l_name,password,email,role_id) values('$fName','$lName','$password','$email',$role_id)";
-    $operation = mysqli_query($conn,$sqlInsert);
+    // Last Name Validation
+    if (empty($lName)) {
+        $errors['lName'] = 'Please Insert Your Last Name';
+    } elseif (strlen($lName) > 8) {
+        $errors['lName'] = 'Last Name Must Be less Than 8 Letters';
+    }
 
-    if ($operation) {
-        echo "Success , Your Account Created";
+    // Email Validation
+    if (empty($email)) {
+        $errors['email'] = 'Please Insert Your Email Address';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = "Invalid Email";
+    }
+
+    // Password Validation
+    if (empty($password)) {
+        $errors['password'] = "Password Required";
+    } elseif (strlen($password) < 6 && strlen($password) > 14) {
+        $errors['Password'] = "Length Must be between 6-14 Letters";
+    }
+
+    // Role_ID Validation
+    if (empty($role_id)) {
+        $errors['role_id'] = "Role is Required";
+    } elseif (!is_int($role_id)) {
+        $errors['role_id'] = "Invalid Role ID";
+    }
+
+    // Catching errors
+    if (count($errors) > 0) {
+        // print errors 
+        foreach ($errors as $key => $value) {
+            echo '* ' . $key . ' : ' . $value . '<br>';
+        }
     } else {
-        echo "Failed , " . mysqli_error($conn);
+        $password = md5($password);
+
+        $sqlInsert = "insert into user(f_name,l_name,password,email,role_id) values('$fName','$lName','$password','$email',$role_id)";
+        $operation = mysqli_query($conn, $sqlInsert);
+
+        if ($operation) {
+            echo "Success , Your Account Created";
+        } else {
+            echo "Failed , " . mysqli_error($conn);
+        }
     }
-}
 }
 
 
@@ -182,47 +183,47 @@ if (count($errors) > 0) {
     </header>
     <!-- ##### Header Area End ##### -->
     <div class="container mt-5 pt-5">
-    <h1>Sign up</h1>
+        <h1>Sign up</h1>
     </div>
 
     <!-- ############ Content side Start -->
-    <div class="container mt-5 mb-5 w-100" >
-    <form class="w-100" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+    <div class="container mt-5 mb-5 w-100">
+        <form class="w-100" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 
-    <div class="input-group mb-4">
-    <label for="exampleInputFName" class="form-label mr-4 pt-2">First Name</label>
-    <input type="text" class="form-control" id="exampleInputFName" aria-describedby="textHelp" name="fName">
+            <div class="input-group mb-4">
+                <label for="exampleInputFName" class="form-label mr-4 pt-2">First Name</label>
+                <input type="text" class="form-control" id="exampleInputFName" aria-describedby="textHelp" name="fName">
 
-    <label for="exampleInputFName" class="form-label ml-5 pr-4 pt-2">Last Name</label>
-    <input type="text" class="form-control" id="exampleInputFName" aria-describedby="textHelp" name="lName">
-  </div>
+                <label for="exampleInputFName" class="form-label ml-5 pr-4 pt-2">Last Name</label>
+                <input type="text" class="form-control" id="exampleInputFName" aria-describedby="textHelp" name="lName">
+            </div>
 
-  <div class="input-group mb-4 w-100">
-  <label class="input-group-text mr-4 pr-4" for="inputGroupSelect01">Roles</label>
-  <select class="form-select w-75" id="inputGroupSelect01" name="role_id">
+            <div class="input-group mb-4 w-100">
+                <label class="input-group-text mr-4 pr-4" for="inputGroupSelect01">Roles</label>
+                <select class="form-select w-75" id="inputGroupSelect01" name="role_id">
 
-  <?php 
-  while($row = mysqli_fetch_assoc($result)){
-  ?>
-    <option value=<?php echo $row['role_id'];?>><?php echo $row['role_name'] ?></option>
-    <?php } ?>
-  </select>
-</div>
+                    <?php
+                    while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                        <option value=<?php echo $row['role_id']; ?>><?php echo $row['role_name'] ?></option>
+                    <?php } ?>
+                </select>
+            </div>
 
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
 
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
-  </div>
-  <button type="submit" class="btn btn-primary">Sign Up</button>
-</form>
-</div>
-<!-- ############ Content side end -->
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+    </div>
+    <!-- ############ Content side end -->
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer_area clearfix">
@@ -289,12 +290,14 @@ if (count($errors) > 0) {
                 </div>
             </div>
 
-<div class="row mt-5">
+            <div class="row mt-5">
                 <div class="col-md-12 text-center">
                     <p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>, distributed by <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
-    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>, distributed by <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
                 </div>
             </div>
