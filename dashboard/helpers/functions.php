@@ -1,78 +1,98 @@
-<?php 
+<?php
 ### Clean Function 
 
-function clean($input){
+function clean($input)
+{
     return stripslashes(strip_tags(trim($input)));
 }
 
 ### Validation Function To Validate Data
-function validate($input,$case,$length = 6){
+function validate($input, $case, $length = 6)
+{
     $status = true;
 
-    switch($case){
+    switch ($case) {
         case 'required':
-            if(empty($input)){
+            if (empty($input)) {
                 $status = false;
             }
             break;
 
         case 'email':
-            if(!filter_var($input,FILTER_VALIDATE_EMAIL)){
+            if (!filter_var($input, FILTER_VALIDATE_EMAIL)) {
                 $status = false;
             }
             break;
         case 'min':
-            if(strlen($input) < $length){
+            if (strlen($input) < $length) {
                 $status = false;
             }
             break;
         case 'max':
-            if(strlen($input) > $length){
+            if (strlen($input) > $length) {
                 $status = false;
             }
             break;
         case 'int':
-            if(!filter_var($input,FILTER_VALIDATE_INT)){
+            if (!filter_var($input, FILTER_VALIDATE_INT)) {
                 $status = false;
             }
             break;
         case 'image':
             // Validatating Extension
             $imageType = $input;
-            $extensionArray = explode('/',$imageType);
+            $extensionArray = explode('/', $imageType);
             $extensions = strtolower(end($extensionArray));
-            $allowedExtensions = ['jpeg','jpg','png','gift'];
+            $allowedExtensions = ['jpeg', 'jpg', 'png', 'gift'];
 
-            if(!in_array($extensions,$allowedExtensions)){
+            if (!in_array($extensions, $allowedExtensions)) {
                 $status = false;
             }
             break;
+            //prices validation
+        case 'price':
+            if (!filter_var($input, FILTER_VALIDATE_FLOAT)) {
+                $status = false;
+            }
+            break;
+        case 'zero':
+            if ($input == 0) {
+                $status = false;
+            }
+            break;
+        case 'negative':
+            if ($input < 0) {
+                $status = false;
+            }
     }
 
     return $status;
 }
 
 ### Print Messages That Will be Save to Session
-function message($message = null){
-    if(isset($_SESSION['message'])){
-        foreach($_SESSION['message'] as $Mkey => $Mvalue){
+function message($message = null)
+{
+    if (isset($_SESSION['message'])) {
+        foreach ($_SESSION['message'] as $Mkey => $Mvalue) {
             //printing
-            echo $Mkey.' : '.$Mvalue.'<br>';
+            echo $Mkey . ' : ' . $Mvalue . '<br>';
         }
         unset($_SESSION['message']);
-    }else{
+    } else {
         echo ' <li class="breadcrumb-item active">' . $message . '</li>';
     }
 }
 
 ### DB Queries Function
-function DoQuery($query){
-    $result = mysqli_query($GLOBALS['conn'],$query);
+function DoQuery($query)
+{
+    $result = mysqli_query($GLOBALS['conn'], $query);
     return $result;
 }
 
 ### Upload
-function upload($file){
+function upload($file)
+{
     $extensionArray = explode('/', $file['image']['type']);
     $extension =  strtolower(end($extensionArray));
     # Upload Image . . .
@@ -100,4 +120,20 @@ function RemoveFile($file)
     }
     return $status;
 }
-?>
+
+function url($input){
+
+    return   'http://'.$_SERVER['HTTP_HOST'].'/group14/week3/blog/dashboard/'.$input;    
+   } 
+     function checkOwner($id){
+   
+        if(($_SESSION['user']['role_id'] == 5) && ($_SESSION['user']['user_id'] != $id)){
+        
+               $status = false; 
+        
+           }else{
+               $status = true; 
+           }
+   
+           return $status; 
+     }
