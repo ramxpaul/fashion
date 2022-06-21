@@ -6,7 +6,7 @@ require 'helpers/checkLogin.php';
 #####################################################################################################################
 require './layout/header.php';
 require './layout/nav.php';
-require './layout/sidNav.php';
+require './layout/sidenav.php';
 ?>
 
         <main>
