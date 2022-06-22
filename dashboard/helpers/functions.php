@@ -108,6 +108,23 @@ function upload($file)
     }
 }
 
+function proImage($file)
+{
+    $extensionArray = explode('/', $file['image']['type']);
+    $extension =  strtolower(end($extensionArray));
+    # Upload Image . . .
+    $finalName = uniqid() . time() . '.' . $extension;
+    $disPath = 'uploads/' . $finalName;
+    # Get Temp Path . . .
+    $tempName  = $file['image']['tmp_name'];
+
+    if (move_uploaded_file($tempName, $disPath)) {
+        return $finalName;
+    } else {
+        return false;
+    }
+}
+
 ### Removing File
 function RemoveFile($file)
 {
@@ -123,7 +140,7 @@ function RemoveFile($file)
 
 function url($input){
 
-    return   'http://'.$_SERVER['HTTP_HOST'].'/group14/week3/blog/dashboard/'.$input;    
+    return   'http://'.$_SERVER['HTTP_HOST'].'/fashion/dashboard/'.$input;    
    } 
      function checkOwner($id){
    

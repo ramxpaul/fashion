@@ -1,3 +1,3 @@
 <?php 
- mysqli_close($con);
+ mysqli_close($conn);
 ?>

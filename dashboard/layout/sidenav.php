@@ -40,34 +40,22 @@
                                     
                                      if($_SESSION['user']['role_id'] == 1 && $module == "users"){
                                           
-                                ?>      
-                                <a class="nav-link" href="<?php echo url($module.'/create.php')?>">+ Create</a>
+                                ?>     
+                                <a class="nav-link" href="<?php echo url($module.'/index.php')?>">+ Display</a> 
+                                <a class="nav-link" href="<?php echo url($module.'/create.php')?>">+ Create</a>                           
                                 <?php 
                                      }else{ 
                                  ?>
                                 
                                 <a class="nav-link" href="<?php echo url($module.'/index.php')?>">  Display</a>
                                 <a class="nav-link" href="<?php echo url($module.'/create.php')?>">+ Create</a>
-                          <?php } ?>
-                                    
-                                    
-                            
+                          <?php } ?>                                                                                                    
                                 </nav>
                             </div>
 
                          <?php } ?>
-
-
-
-
-
-
-
                         </div>
                     </div>
-
-
-
 
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
@@ -76,4 +64,4 @@
                 </nav>
             </div>
 
-            <div id="layoutSidenav_content">
+            

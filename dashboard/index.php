@@ -568,6 +568,6 @@ require './layout/sidenav.php';
 
 
 <?php 
-  require './layout/footer.php';
+  require '../dashboard/layout/footer.php';
 ?>
 

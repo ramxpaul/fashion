@@ -1,7 +1,7 @@
 <?php 
 
- require 'helpers/dbConnection.php';
- require 'helpers/functions.php';
+ require './helpers/dbconnection.php';
+ require './helpers/functions.php';
 
 
   if($_SERVER['REQUEST_METHOD'] == "POST"){

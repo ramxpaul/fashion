@@ -1,6 +1,4 @@
-<!-- Code -->
 <?php
-// DB Connecting
 require '../helpers/dbconnection.php';
 require '../helpers/functions.php';
 
@@ -126,5 +124,5 @@ require '../fashion_layout/nav.php';
 
     <!-- footer -->
     <?php
-    require '../fashion_layout/footer.php';
+    require '../layout/footer.php';
     ?>
